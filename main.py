@@ -4,18 +4,25 @@ from player import *
 
 def main():
     pygame.init()
+    updatable = pygame.sprite.Group()
+    drawable = pygame.sprite.Group()
+    Player.containers = (updatable, drawable)
+    p1 = Player(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 )
     fps = pygame.time.Clock()
     dt = 0
     screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-    p1 = Player(SCREEN_WIDTH / 2,SCREEN_HEIGHT / 2 )
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return
 
+        updatable.update(dt)
+
         screen.fill("black")
-        p1.update(dt)
-        p1.draw(screen)
+
+        for entity in drawable:
+            entity.draw(screen)
+
         pygame.display.flip()
 
         #frame rate
